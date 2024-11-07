@@ -7,9 +7,10 @@ namespace StalkAndStrikeApp.Data
     public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options) 
+            : base(options)
         {
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Configure your database connection here
@@ -18,18 +19,22 @@ namespace StalkAndStrikeApp.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             // Configure primary keys
             modelBuilder.Entity<User>().HasKey(u => u.UserId);
-            modelBuilder.Entity<Hunt>().HasKey(h => h.HuntId);
+            modelBuilder.Entity<HuntingLocation>().HasKey(h => h.Id);
+            modelBuilder.Entity<Schedule>().HasKey(s => s.Id);
+            modelBuilder.Entity<Trophy>().HasKey(t => t.Id);
 
-            // Configure relationships (if any) and other constraints
-            modelBuilder.Entity<Hunt>()
-                .HasOne<User>()
+            // Configure relationships
+            modelBuilder.Entity<Schedule>()
+                .HasOne(s => s.Location)
                 .WithMany()
-                .HasForeignKey(h => h.UserId)
+                .HasForeignKey(s => s.LocationId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Configure string properties with length constraints (optional)
+            // Configure User entity properties
             modelBuilder.Entity<User>()
                 .Property(u => u.Username)
                 .HasMaxLength(100)
@@ -45,19 +50,27 @@ namespace StalkAndStrikeApp.Data
                 .HasMaxLength(100)
                 .IsRequired();
 
-            modelBuilder.Entity<Hunt>()
-                .Property(h => h.Location)
+            // Configure HuntingLocation entity properties
+            modelBuilder.Entity<HuntingLocation>()
+                .Property(h => h.Name)
                 .HasMaxLength(200)
                 .IsRequired();
 
-            modelBuilder.Entity<Hunt>()
-                .Property(h => h.GameTracked)
+            modelBuilder.Entity<HuntingLocation>()
+                .Property(h => h.AllowedGame)
                 .HasMaxLength(50)
                 .IsRequired();
+
+            // Configure Trophy entity properties
+            modelBuilder.Entity<Trophy>()
+                .Property(t => t.Description)
+                .HasMaxLength(500)
+                .IsRequired();
         }
+
         public DbSet<User> Users { get; set; }
-
-        public DbSet<Hunt> Hunt { get; set; }
-
-    } 
-}
+        public DbSet<HuntingLocation> HuntingLocations { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<Trophy> Trophies { get; set; }
+    }
+} 

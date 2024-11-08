@@ -1,0 +1,25 @@
+﻿@model StalkAndStrikeApp.Models.Dog
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Add Dog</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Breed"></label>
+        <input asp-for="Breed" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="HunterId">Assign to Hunter</label>
+        <select asp-for="HunterId" asp-items="ViewBag.HunterList" class="form-control"></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Dog</button>
+    <a asp-action="Index" asp-controller="Dog" class="btn btn-secondary">Cancel</a>
+</form>

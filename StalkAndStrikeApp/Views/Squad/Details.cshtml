@@ -1,0 +1,32 @@
+﻿@model StalkAndStrikeApp.Models.Squad
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h3>Hunters in this Squad</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>License Number</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var hunter in Model.Hunters)
+        {
+            <tr>
+                <td>@hunter.Name</td>
+                <td>@hunter.LicenseNumber</td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Hunter" asp-route-id="@hunter.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-controller="Hunter" asp-route-id="@hunter.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Button to Add a New Hunter to This Squad -->
+<a asp-action="Create" asp-controller="Hunter" asp-route-squadId="@Model.Id" class="btn btn-primary">Add New Hunter to Squad</a>

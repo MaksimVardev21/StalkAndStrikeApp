@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Manage All Entities";
+}
+
+<h2>Manage Hunters, Dogs, and Squads</h2>
+<p>Select one of the options below to manage your hunting squads and members.</p>
+
+<div class="btn-group d-flex justify-content-center mt-4" role="group">
+    <a asp-controller="Hunter" asp-action="Index" class="btn btn-secondary">Hunters</a>
+    <a asp-controller="Dog" asp-action="Index" class="btn btn-secondary">Dogs</a>
+    <a asp-controller="Squad" asp-action="Index" class="btn btn-secondary">Squads</a>
+</div>

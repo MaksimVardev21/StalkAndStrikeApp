@@ -1,0 +1,26 @@
+﻿@model StalkAndStrikeApp.Models.Hunter
+
+<h2>@Model.Name - Hunter Details</h2>
+
+<p><strong>License Number:</strong> @Model.LicenseNumber</p>
+
+<h3>Assigned Dogs</h3>
+
+@if (Model.Dogs != null && Model.Dogs.Any())
+{
+    <ul>
+        @foreach (var dog in Model.Dogs)
+        {
+            <li>
+                <strong>@dog.Name</strong> - Breed: @dog.Breed
+                <a asp-action="Edit" asp-controller="Dog" asp-route-id="@dog.Id" class="btn btn-sm btn-warning">Edit Dog</a>
+                <a asp-action="Delete" asp-controller="Dog" asp-route-id="@dog.Id" class="btn btn-sm btn-danger">Delete Dog</a>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No dogs assigned.</p>
+    <a asp-action="Create" asp-controller="Dog" asp-route-hunterId="@Model.Id" class="btn btn-primary">Add Dog to Hunter</a>
+}

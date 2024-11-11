@@ -14,9 +14,14 @@ namespace StalkAndStrikeApp.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        // GET: HuntingLocation
-        public ActionResult Index()
+        public HuntingLocationController(ApplicationDbContext context)
         {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
+        public IActionResult Index()
+        {
+            // Check for potential nulls
             var locations = _context.HuntingLocations.ToList();
             return View(locations);
         }

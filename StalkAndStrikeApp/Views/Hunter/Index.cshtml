@@ -1,47 +1,55 @@
-﻿@model IEnumerable<StalkAndStrikeApp.Models.Hunter>
+﻿@model StalkAndStrikeApp.Models.HunterManagementViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h2>Manage Hunters, Squads, and Dogs</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LicenseNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Squad)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LicenseNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Squad.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<!-- Add buttons to navigate to the add forms for Squad, Hunter, and Dog -->
+<div>
+    <a href="@Url.Action("CreateSquad", "Hunter")" class="btn btn-primary">Add Squad</a>
+    <a href="@Url.Action("CreateHunter", "Hunter")" class="btn btn-primary">Add Hunter</a>
+    <a href="@Url.Action("CreateDog", "Hunter")" class="btn btn-primary">Add Dog</a>
+</div>
+
+<!-- Display the lists of Squads, Hunters, and Dogs -->
+<div>
+    <h3>Squads</h3>
+    <ul>
+        @foreach (var squad in Model.Squads)
+        {
+            <li>@squad.Name</li>
+        }
+    </ul>
+</div>
+
+<div>
+    <h3>Hunters</h3>
+    <ul>
+        @foreach (var hunter in Model.Hunters)
+        {
+            <li>
+                @hunter.Name
+                <br /> Squad: @(hunter.Squad != null ? hunter.Squad.Name : "No squad assigned")
+                <br /> Dogs:
+                <ul>
+                    @foreach (var dog in hunter.Dogs)
+                    {
+                        <li>@dog.Name</li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</div>
+
+<div>
+    <h3>Dogs</h3>
+    <ul>
+        @foreach (var dog in Model.Dogs)
+        {
+            <li>@dog.Name</li>
+        }
+    </ul>
+</div>

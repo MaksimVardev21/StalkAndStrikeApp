@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +16,17 @@ namespace StalkAndStrikeApp.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ApplicationDbContext _context;
 
-        // Inject IWebHostEnvironment to access the web root path
-        public TrophyController(IWebHostEnvironment webHostEnvironment, ApplicationDbContext context)
+        public TrophyController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
-            _webHostEnvironment = webHostEnvironment;
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
+        }
+
+        public IActionResult Index()
+        {
+            // Example of loading data from the database
+            var trophies = _context.Trophies.ToList(); // Assuming Trophies is a DbSet<Trophy>
+            return View(trophies); // Passing the list of trophies to the view
         }
 
         public IActionResult Create(Trophy trophy, IFormFile photo)
@@ -55,6 +62,7 @@ namespace StalkAndStrikeApp.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
+
 
             return View(trophy);
         }

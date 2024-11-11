@@ -19,33 +19,74 @@ namespace StalkAndStrikeApp.Controllers
             _context = context;
         }
 
-        // GET: Hunter
-        public async Task<IActionResult> Index()
+        // Action to display form for creating a new Squad
+        public IActionResult CreateSquad()
         {
-            var hunters = _context.Hunters.Include(h => h.Squad);
-            return View(await hunters.ToListAsync());
-        }
-
-        // GET: Hunter/Create
-        public IActionResult Create(int? squadId)
-        {
-            ViewBag.SquadList = new SelectList(_context.Squads, "Id", "Name", squadId);
             return View();
         }
 
-        // POST: Hunter/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,LicenseNumber,SquadId")] Hunter hunter)
+        public IActionResult CreateSquad(Squad squad)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(hunter);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _context.Squads.Add(squad);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            ViewData["SquadId"] = new SelectList(_context.Squads, "Id", "Name", hunter.SquadId);
+            return View(squad);
+        }
+
+        // Action to display form for creating a new Hunter
+        public IActionResult CreateHunter()
+        {
+            ViewBag.Squads = new SelectList(_context.Squads, "Id", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateHunter(Hunter hunter)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Hunters.Add(hunter);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.Squads = new SelectList(_context.Squads, "Id", "Name");
             return View(hunter);
+        }
+
+        // Action to display form for creating a new Dog
+        public IActionResult CreateDog()
+        {
+            ViewBag.Hunters = new SelectList(_context.Hunters, "Id", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateDog(Dog dog)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Dogs.Add(dog);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.Hunters = new SelectList(_context.Hunters, "Id", "Name");
+            return View(dog);
+        }
+
+        public IActionResult Index()
+        {
+            var viewModel = new HunterManagementViewModel
+            {
+                Squads = _context.Squads.ToList(),
+                Hunters = _context.Hunters.Include(h => h.Dogs).Include(h => h.Squad).ToList(),
+                Dogs = _context.Dogs.ToList()
+            };
+
+            return View(viewModel);
         }
     }
 }

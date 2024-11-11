@@ -1,0 +1,23 @@
+﻿@model StalkAndStrikeApp.Models.Dog
+
+<h2>Add New Dog</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="Name">Dog Name</label>
+        <input type="text" id="Name" name="Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="HunterId">Select Hunter</label>
+        <select id="HunterId" name="HunterId" class="form-control">
+            <option value="">None</option>
+            @foreach (var hunter in ViewBag.Hunters as SelectList)
+            {
+                <option value="@hunter.Value">@hunter.Text</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Dog</button>
+</form>

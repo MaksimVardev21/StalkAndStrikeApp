@@ -1,0 +1,31 @@
+﻿@model StalkAndStrikeApp.Models.Gun
+
+@{
+    ViewData["Title"] = "Add New Gun";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="Name">Gun Name</label>
+        <input type="text" id="Name" name="Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <textarea id="Description" name="Description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="CategoryId">Category</label>
+        <select id="CategoryId" name="CategoryId" class="form-control">
+            @foreach (var category in ViewBag.Categories as IEnumerable<StalkAndStrikeApp.Models.Category>)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Gun</button>
+</form>

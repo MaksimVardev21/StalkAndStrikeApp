@@ -22,6 +22,7 @@ namespace StalkAndStrikeApp.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Gun>().ToTable("Guns");
 
             // Configure primary keys
             modelBuilder.Entity<User>().HasKey(u => u.UserId);
@@ -93,6 +94,11 @@ namespace StalkAndStrikeApp.Data
             modelBuilder.Entity<Dog>()
                 .HasIndex(d => d.Name)
                 .IsUnique(); // Ensure unique names for dogs in this example
+
+            modelBuilder.Entity<Gun>()
+            .HasOne(g => g.Category) // A Gun has one Category
+            .WithMany(c => c.Guns)  // A Category can have many Guns
+            .HasForeignKey(g => g.CategoryId);
         }
 
         public DbSet<User> Users { get; set; }
@@ -103,12 +109,7 @@ namespace StalkAndStrikeApp.Data
         public DbSet<Hunter> Hunters { get; set; }
         public DbSet<Dog> Dogs { get; set; }
         public DbSet<Squad> Squads { get; set; }
-       
-
+        public DbSet<Gun> Gun { get; set; }
+        public DbSet<Category> Category { get; set; }
     }
-
-        
-
-        
-    
 } 

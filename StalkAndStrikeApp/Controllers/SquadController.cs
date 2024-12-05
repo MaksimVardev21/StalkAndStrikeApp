@@ -121,5 +121,18 @@ namespace StalkAndStrikeApp.Controllers
         {
             return _context.Squads.Any(e => e.Id == id);
         }
+
+        // Example in HunterController
+        [HttpPost]
+        public JsonResult AddHunter(Hunter hunter)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Hunters.Add(hunter);
+                _context.SaveChanges();
+                return Json(hunter); // Return the newly added hunter as JSON
+            }
+            return Json(null);
+        }
     }
 }

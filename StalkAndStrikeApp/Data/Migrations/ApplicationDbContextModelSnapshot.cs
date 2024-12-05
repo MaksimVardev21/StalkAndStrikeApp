@@ -17,7 +17,7 @@ namespace StalkAndStrikeApp.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -167,12 +167,10 @@ namespace StalkAndStrikeApp.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -209,12 +207,10 @@ namespace StalkAndStrikeApp.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -222,6 +218,23 @@ namespace StalkAndStrikeApp.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("StalkAndStrikeApp.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("StalkAndStrikeApp.Models.Dog", b =>
@@ -253,6 +266,32 @@ namespace StalkAndStrikeApp.Data.Migrations
                     b.ToTable("Dogs");
                 });
 
+            modelBuilder.Entity("StalkAndStrikeApp.Models.Gun", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Guns", (string)null);
+                });
+
             modelBuilder.Entity("StalkAndStrikeApp.Models.Hunter", b =>
                 {
                     b.Property<int>("Id")
@@ -261,9 +300,12 @@ namespace StalkAndStrikeApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("HuntingLocationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("LicenseNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -274,8 +316,7 @@ namespace StalkAndStrikeApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LicenseNumber")
-                        .IsUnique();
+                    b.HasIndex("HuntingLocationId");
 
                     b.HasIndex("SquadId");
 
@@ -474,12 +515,27 @@ namespace StalkAndStrikeApp.Data.Migrations
                     b.Navigation("Hunter");
                 });
 
+            modelBuilder.Entity("StalkAndStrikeApp.Models.Gun", b =>
+                {
+                    b.HasOne("StalkAndStrikeApp.Models.Category", "Category")
+                        .WithMany("Guns")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("StalkAndStrikeApp.Models.Hunter", b =>
                 {
+                    b.HasOne("StalkAndStrikeApp.Models.HuntingLocation", null)
+                        .WithMany("Hunters")
+                        .HasForeignKey("HuntingLocationId");
+
                     b.HasOne("StalkAndStrikeApp.Models.Squad", "Squad")
                         .WithMany("Hunters")
                         .HasForeignKey("SquadId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.Navigation("Squad");
@@ -496,9 +552,19 @@ namespace StalkAndStrikeApp.Data.Migrations
                     b.Navigation("Location");
                 });
 
+            modelBuilder.Entity("StalkAndStrikeApp.Models.Category", b =>
+                {
+                    b.Navigation("Guns");
+                });
+
             modelBuilder.Entity("StalkAndStrikeApp.Models.Hunter", b =>
                 {
                     b.Navigation("Dogs");
+                });
+
+            modelBuilder.Entity("StalkAndStrikeApp.Models.HuntingLocation", b =>
+                {
+                    b.Navigation("Hunters");
                 });
 
             modelBuilder.Entity("StalkAndStrikeApp.Models.Squad", b =>

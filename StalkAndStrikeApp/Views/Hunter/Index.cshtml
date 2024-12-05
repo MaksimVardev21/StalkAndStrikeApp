@@ -1,55 +1,77 @@
 ﻿@model StalkAndStrikeApp.Models.HunterManagementViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Hunter Management";
 }
 
-<h2>Manage Hunters, Squads, and Dogs</h2>
+<h2>Hunter Management</h2>
 
-<!-- Add buttons to navigate to the add forms for Squad, Hunter, and Dog -->
-<div>
+<div class="actions">
     <a href="@Url.Action("CreateSquad", "Hunter")" class="btn btn-primary">Add Squad</a>
     <a href="@Url.Action("CreateHunter", "Hunter")" class="btn btn-primary">Add Hunter</a>
     <a href="@Url.Action("CreateDog", "Hunter")" class="btn btn-primary">Add Dog</a>
 </div>
 
-<!-- Display the lists of Squads, Hunters, and Dogs -->
-<div>
+<div class="content">
     <h3>Squads</h3>
-    <ul>
-        @foreach (var squad in Model.Squads)
-        {
-            <li>@squad.Name</li>
-        }
-    </ul>
-</div>
+    @if (Model.Squads != null && Model.Squads.Any())
+    {
+        <ul>
+            @foreach (var squad in Model.Squads)
+            {
+                <li>@squad.Name</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No squads available.</p>
+    }
 
-<div>
     <h3>Hunters</h3>
-    <ul>
-        @foreach (var hunter in Model.Hunters)
-        {
-            <li>
-                @hunter.Name
-                <br /> Squad: @(hunter.Squad != null ? hunter.Squad.Name : "No squad assigned")
-                <br /> Dogs:
-                <ul>
-                    @foreach (var dog in hunter.Dogs)
+    @if (Model.Hunters != null && Model.Hunters.Any())
+    {
+        <ul>
+            @foreach (var hunter in Model.Hunters)
+            {
+                <li>
+                    <strong>@hunter.Name</strong>
+                    <br />Squad: @(hunter.Squad != null ? hunter.Squad.Name : "No squad assigned")
+                    <br />Dogs:
+                    @if (hunter.Dogs != null && hunter.Dogs.Any())
                     {
-                        <li>@dog.Name</li>
+                        <ul>
+                            @foreach (var dog in hunter.Dogs)
+                            {
+                                <li>@dog.Name</li>
+                            }
+                        </ul>
                     }
-                </ul>
-            </li>
-        }
-    </ul>
-</div>
+                    else
+                    {
+                        <p>No dogs assigned.</p>
+                    }
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No hunters available.</p>
+    }
 
-<div>
     <h3>Dogs</h3>
-    <ul>
-        @foreach (var dog in Model.Dogs)
-        {
-            <li>@dog.Name</li>
-        }
-    </ul>
+    @if (Model.Dogs != null && Model.Dogs.Any())
+    {
+        <ul>
+            @foreach (var dog in Model.Dogs)
+            {
+                <li>@dog.Name</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No dogs available.</p>
+    }
 </div>

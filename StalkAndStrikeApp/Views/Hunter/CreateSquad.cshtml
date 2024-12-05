@@ -1,11 +1,19 @@
 ﻿@model StalkAndStrikeApp.Models.Squad
 
-<h2>Add New Squad</h2>
+<h2>Create Squad</h2>
 
-<form method="post">
+<form asp-action="CreateSquad" method="post">
     <div class="form-group">
-        <label for="Name">Squad Name</label>
-        <input type="text" id="Name" name="Name" class="form-control" />
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Create Squad</button>
 </form>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

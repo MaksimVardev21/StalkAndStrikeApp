@@ -1,23 +1,23 @@
 ﻿@model StalkAndStrikeApp.Models.Dog
 
-<h2>Add New Dog</h2>
+<h2>Create Dog</h2>
 
-<form method="post">
+<form asp-action="CreateDog" method="post">
     <div class="form-group">
-        <label for="Name">Dog Name</label>
-        <input type="text" id="Name" name="Name" class="form-control" />
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
-
     <div class="form-group">
-        <label for="HunterId">Select Hunter</label>
-        <select id="HunterId" name="HunterId" class="form-control">
-            <option value="">None</option>
-            @foreach (var hunter in ViewBag.Hunters as SelectList)
-            {
-                <option value="@hunter.Value">@hunter.Text</option>
-            }
-        </select>
+        <label asp-for="HunterId"></label>
+        <select asp-for="HunterId" class="form-control" asp-items="ViewBag.Hunters"></select>
+        <span asp-validation-for="HunterId" class="text-danger"></span>
     </div>
-
     <button type="submit" class="btn btn-primary">Create Dog</button>
 </form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StalkAndStrikeApp.Data;
@@ -28,12 +24,22 @@ namespace StalkAndStrikeApp.Controllers
         [HttpPost]
         public IActionResult CreateSquad(Squad squad)
         {
+            Console.WriteLine($"Attempting to create Squad: {squad.Name}");
+
             if (ModelState.IsValid)
             {
                 _context.Squads.Add(squad);
                 _context.SaveChanges();
+                Console.WriteLine($"Squad created with ID: {squad.Id}");
                 return RedirectToAction("Index");
             }
+
+            Console.WriteLine("ModelState is invalid:");
+            foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+            {
+                Console.WriteLine($"Error: {error.ErrorMessage}");
+            }
+
             return View(squad);
         }
 
@@ -42,7 +48,7 @@ namespace StalkAndStrikeApp.Controllers
         {
             ViewBag.Squads = new SelectList(_context.Squads, "Id", "Name");
             return View();
-        }
+        }   
 
         [HttpPost]
         public IActionResult CreateHunter(Hunter hunter)
@@ -53,6 +59,13 @@ namespace StalkAndStrikeApp.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            // Log validation errors
+            foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+            {
+                Console.WriteLine(error.ErrorMessage);
+            }
+
             ViewBag.Squads = new SelectList(_context.Squads, "Id", "Name");
             return View(hunter);
         }
@@ -73,6 +86,13 @@ namespace StalkAndStrikeApp.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            // Log validation errors
+            foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+            {
+                Console.WriteLine(error.ErrorMessage);
+            }
+
             ViewBag.Hunters = new SelectList(_context.Hunters, "Id", "Name");
             return View(dog);
         }
@@ -82,7 +102,10 @@ namespace StalkAndStrikeApp.Controllers
             var viewModel = new HunterManagementViewModel
             {
                 Squads = _context.Squads.ToList(),
-                Hunters = _context.Hunters.Include(h => h.Dogs).Include(h => h.Squad).ToList(),
+                Hunters = _context.Hunters
+                    .Include(h => h.Squad)
+                    .Include(h => h.Dogs) // Ensure Dogs are included
+                    .ToList(),
                 Dogs = _context.Dogs.ToList()
             };
 

@@ -74,10 +74,11 @@ namespace StalkAndStrikeApp.Data
 
             // Hunter to Squad: Many Hunters in one Squad
             modelBuilder.Entity<Hunter>()
-             .HasOne(h => h.Squad)
-             .WithMany(s => s.Hunters)
-             .HasForeignKey(h => h.SquadId)
-             .OnDelete(DeleteBehavior.SetNull);
+     .HasOne(h => h.Squad)
+     .WithMany(s => s.Hunters)
+     .HasForeignKey(h => h.SquadId)
+     .OnDelete(DeleteBehavior.Cascade);
+
 
             // Dog to Hunter: One Dog per Hunter
             modelBuilder.Entity<Dog>()
@@ -112,4 +113,4 @@ namespace StalkAndStrikeApp.Data
         public DbSet<Gun> Gun { get; set; }
         public DbSet<Category> Category { get; set; }
     }
-} 
+}

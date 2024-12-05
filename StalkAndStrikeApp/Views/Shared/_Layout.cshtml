@@ -30,13 +30,17 @@
             <h2>Stalk and Strike</h2>
         </div>
         <ul class="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/HuntingLocation/Index">Hunting Locations</a></li>
-            <li><a href="/Trophy/Index">Trophies</a></li>
+            <li><a href="/" class="btn btn-lg btn-primary">Home</a></li>
+            <li><a href="/HuntingLocation/Index" class="btn btn-lg btn-primary">Hunting Locations</a></li>
+            <li><a href="/Trophy/Index" class="btn btn-lg btn-primary">Trophies</a></li>
             <li><a asp-controller="Hunter" asp-action="Index" class="btn btn-lg btn-primary">Hunter</a></li>
             <li><a asp-controller="Gun" asp-action="Index" class="btn btn-lg btn-primary">Gun</a></li>
-            <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
-            <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            </li>
         </ul>
     </nav>
 
@@ -54,6 +58,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Optional JS library -->
     <script src="~/js/scripts.js"></script> <!-- Link to your custom JS file -->
     @RenderSection("Scripts", false) <!-- Optional section for page-specific scripts -->
+
+    <div class="navbar-buttons">
+        @Html.ActionLink("Hunter", "Index", "Hunter", null, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Gun", "Index", "Gun", null, new { @class = "btn btn-primary" })
+    </div>
 
 </body>
 </html>

@@ -10,6 +10,8 @@
         public int SquadId { get; set; }
         public Squad Squad { get; set; }
 
+        // Navigation property for Dogs
         public ICollection<Dog> Dogs { get; set; } = new List<Dog>();
     }
+
 }

@@ -15,42 +15,26 @@ namespace StalkAndStrikeApp.Controllers
             _context = context;
         }
 
-        // Action to display form for creating a new Squad
-        public IActionResult CreateSquad()
+        public IActionResult Index()
         {
-            return View();
+            var viewModel = new HunterManagementViewModel
+            {
+                Squads = _context.Squads.ToList(),
+                Hunters = _context.Hunters.Include(h => h.Dogs).Include(h => h.Squad).ToList(),
+                Dogs = _context.Dogs.ToList()
+            };
+
+            return View(viewModel);
         }
 
-        [HttpPost]
-        public IActionResult CreateSquad(Squad squad)
-        {
-            Console.WriteLine($"Attempting to create Squad: {squad.Name}");
 
-            if (ModelState.IsValid)
-            {
-                _context.Squads.Add(squad);
-                _context.SaveChanges();
-                Console.WriteLine($"Squad created with ID: {squad.Id}");
-                return RedirectToAction("Index");
-            }
-
-            Console.WriteLine("ModelState is invalid:");
-            foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-            {
-                Console.WriteLine($"Error: {error.ErrorMessage}");
-            }
-
-            return View(squad);
-        }
-
-        // Action to display form for creating a new Hunter
-        public IActionResult CreateHunter()
+        public IActionResult CreateHunter()  // This is the GET method
         {
             ViewBag.Squads = new SelectList(_context.Squads, "Id", "Name");
             return View();
-        }   
+        }
 
-        [HttpPost]
+        [HttpPost]  // Ensure this method handles POST requests
         public IActionResult CreateHunter(Hunter hunter)
         {
             if (ModelState.IsValid)
@@ -60,17 +44,29 @@ namespace StalkAndStrikeApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            // Log validation errors
-            foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-            {
-                Console.WriteLine(error.ErrorMessage);
-            }
-
             ViewBag.Squads = new SelectList(_context.Squads, "Id", "Name");
             return View(hunter);
         }
 
-        // Action to display form for creating a new Dog
+
+        public IActionResult CreateSquad()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateSquad(Squad squad)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Squads.Add(squad);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(squad);
+        }
+
         public IActionResult CreateDog()
         {
             ViewBag.Hunters = new SelectList(_context.Hunters, "Id", "Name");
@@ -87,29 +83,8 @@ namespace StalkAndStrikeApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            // Log validation errors
-            foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-            {
-                Console.WriteLine(error.ErrorMessage);
-            }
-
             ViewBag.Hunters = new SelectList(_context.Hunters, "Id", "Name");
             return View(dog);
-        }
-
-        public IActionResult Index()
-        {
-            var viewModel = new HunterManagementViewModel
-            {
-                Squads = _context.Squads.ToList(),
-                Hunters = _context.Hunters
-                    .Include(h => h.Squad)
-                    .Include(h => h.Dogs) // Ensure Dogs are included
-                    .ToList(),
-                Dogs = _context.Dogs.ToList()
-            };
-
-            return View(viewModel);
         }
     }
 }

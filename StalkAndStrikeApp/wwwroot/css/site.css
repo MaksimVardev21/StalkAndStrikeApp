@@ -180,3 +180,37 @@ nav ul {
 /* Footer */
 footer {
     background-color: #2C
+    /* General button styles */
+    .btn
+
+{
+    background-color: #007BFF; /* Blue background */
+    border: none; /* Remove default borders */
+    color: white; /* White text */
+    padding: 10px 20px; /* Add padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Ensure proper spacing */
+    font-size: 16px; /* Adjust font size */
+    border-radius: 8px; /* Add rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+    transition: background-color 0.3s, transform 0.2s; /* Add transition */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Hover effect */
+.btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slightly lift the button */
+}
+
+/* Active button effect */
+.btn:active {
+    background-color: #004080; /* Even darker blue */
+    transform: translateY(2px); /* Push button down */
+}
+
+/* Optional for aligning buttons in your navbar */
+.navbar-buttons .btn {
+    margin-right: 10px; /* Add spacing between buttons */
+}

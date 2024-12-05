@@ -1,77 +1,66 @@
 ﻿@model StalkAndStrikeApp.Models.HunterManagementViewModel
 
-@{
-    ViewData["Title"] = "Hunter Management";
-}
-
 <h2>Hunter Management</h2>
 
-<div class="actions">
-    <a href="@Url.Action("CreateSquad", "Hunter")" class="btn btn-primary">Add Squad</a>
-    <a href="@Url.Action("CreateHunter", "Hunter")" class="btn btn-primary">Add Hunter</a>
-    <a href="@Url.Action("CreateDog", "Hunter")" class="btn btn-primary">Add Dog</a>
-</div>
+<!-- Add Squad Section -->
+<h3>Squads</h3>
+<a asp-action="CreateSquad" class="btn btn-success mb-3">Add Squad</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var squad in Model.Squads)
+        {
+            <tr>
+                <td>@squad.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-<div class="content">
-    <h3>Squads</h3>
-    @if (Model.Squads != null && Model.Squads.Any())
-    {
-        <ul>
-            @foreach (var squad in Model.Squads)
-            {
-                <li>@squad.Name</li>
-            }
-        </ul>
-    }
-    else
-    {
-        <p>No squads available.</p>
-    }
+<!-- Add Hunter Section -->
+<h3>Hunters</h3>
+<a asp-action="CreateHunter" class="btn btn-success mb-3">Add Hunter</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>License Number</th>
+            <th>Squad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var hunter in Model.Hunters)
+        {
+            <tr>
+                <td>@hunter.Name</td>
+                <td>@hunter.LicenseNumber</td>
+                <td>@hunter.Squad?.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-    <h3>Hunters</h3>
-    @if (Model.Hunters != null && Model.Hunters.Any())
-    {
-        <ul>
-            @foreach (var hunter in Model.Hunters)
-            {
-                <li>
-                    <strong>@hunter.Name</strong>
-                    <br />Squad: @(hunter.Squad != null ? hunter.Squad.Name : "No squad assigned")
-                    <br />Dogs:
-                    @if (hunter.Dogs != null && hunter.Dogs.Any())
-                    {
-                        <ul>
-                            @foreach (var dog in hunter.Dogs)
-                            {
-                                <li>@dog.Name</li>
-                            }
-                        </ul>
-                    }
-                    else
-                    {
-                        <p>No dogs assigned.</p>
-                    }
-                </li>
-            }
-        </ul>
-    }
-    else
-    {
-        <p>No hunters available.</p>
-    }
-
-    <h3>Dogs</h3>
-    @if (Model.Dogs != null && Model.Dogs.Any())
-    {
-        <ul>
-            @foreach (var dog in Model.Dogs)
-            {
-                <li>@dog.Name</li>
-            }
-        </ul>
-    }
-    else
-    {
-        <p>No dogs available.</p>
-    }
-</div>
+<!-- Add Dog Section -->
+<h3>Dogs</h3>
+<a asp-action="CreateDog" class="btn btn-success mb-3">Add Dog</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Hunter</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dog in Model.Dogs)
+        {
+            <tr>
+                <td>@dog.Name</td>
+                <td>@dog.Hunter?.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

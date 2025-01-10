@@ -1,14 +1,10 @@
-﻿using System.Diagnostics.Metrics;
-
-namespace StalkAndStrikeApp.Models
+﻿namespace StalkAndStrikeApp.Models
 {
     public class Dog
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Breed { get; set; } // Add this property for the breed information.
-
-        // Foreign key
+        public string Name { get; set; } = string.Empty;
+        public string Breed { get; set; } = string.Empty;
         public int HunterId { get; set; }
         public Hunter Hunter { get; set; }
     }

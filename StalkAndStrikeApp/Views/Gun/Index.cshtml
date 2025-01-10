@@ -20,9 +20,13 @@
     <div class="form-group">
         <label for="CategoryId">Category</label>
         <select id="CategoryId" name="CategoryId" class="form-control">
-            @foreach (var category in ViewBag.Categories as IEnumerable<StalkAndStrikeApp.Models.Category>)
+            @if (ViewBag.Categories != null)
             {
-                <option value="@category.Id">@category.Name</option>
+                var categories = (IEnumerable<StalkAndStrikeApp.Models.Category>)ViewBag.Categories;
+                @foreach (var category in categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
             }
         </select>
     </div>

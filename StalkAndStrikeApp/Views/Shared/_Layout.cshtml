@@ -4,65 +4,42 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - StalkAndStrikeApp</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/StalkAndStrikeApp.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/js/scripts.js"></script>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">StalkAndStrikeApp</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Hunter", "Index", "Hunter", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Gun", "Index", "Gun", null, new { @class = "nav-link" })
+                    </li>
+                </ul>
                 <ul class="navbar-nav ml-auto">
-
-                    
+                    <li class="nav-item">
+                        @Html.ActionLink("Login", "Login", "Account", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Register", "Register", "Account", null, new { @class = "nav-link" })
+                    </li>
                 </ul>
             </div>
         </nav>
     </header>
-
-
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo">
-            <h2>Stalk and Strike</h2>
-        </div>
-        <ul class="nav-links">
-            <li><a href="/" class="btn btn-lg btn-primary">Home</a></li>
-            <li><a href="/HuntingLocation/Index" class="btn btn-lg btn-primary">Hunting Locations</a></li>
-            <li><a href="/Trophy/Index" class="btn btn-lg btn-primary">Trophies</a></li>
-            <li><a asp-controller="Hunter" asp-action="Index" class="btn btn-lg btn-primary">Hunter</a></li>
-            <li><a asp-controller="Gun" asp-action="Index" class="btn btn-lg btn-primary">Gun</a></li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-            </li>
-        </ul>
-    </nav>
-
-    <!-- Main content -->
     <div class="container">
-        @RenderBody() <!-- The view content will be injected here -->
+        @RenderBody()
     </div>
-
-    <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Stalk and Strike Hunting App | All rights reserved</p>
+        <p>&copy; @DateTime.Now.Year - StalkAndStrikeApp</p>
     </footer>
-
-    <!-- Optional JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Optional JS library -->
-    <script src="~/js/scripts.js"></script> <!-- Link to your custom JS file -->
-    @RenderSection("Scripts", false) <!-- Optional section for page-specific scripts -->
-
-    <div class="navbar-buttons">
-        @Html.ActionLink("Hunter", "Index", "Hunter", null, new { @class = "btn btn-primary" })
-        @Html.ActionLink("Gun", "Index", "Gun", null, new { @class = "btn btn-primary" })
-    </div>
-
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

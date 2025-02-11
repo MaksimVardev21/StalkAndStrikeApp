@@ -9,6 +9,7 @@
     <thead>
         <tr>
             <th>Name</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -16,6 +17,13 @@
         {
             <tr>
                 <td>@squad.Name</td>
+                <td>
+                <td>
+                    <a asp-controller="Squad" asp-action="Edit" asp-route-id="@squad.Id" class="btn btn-danger btn-sm">Edit</a>
+                    <a asp-controller="Squad" asp-action="Delete" asp-route-id="@squad.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+
+                </td>
             </tr>
         }
     </tbody>
@@ -30,6 +38,7 @@
             <th>Name</th>
             <th>License Number</th>
             <th>Squad</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -39,28 +48,13 @@
                 <td>@hunter.Name</td>
                 <td>@hunter.LicenseNumber</td>
                 <td>@hunter.Squad?.Name</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@hunter.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@hunter.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
 <!-- Add Dog Section -->
-<h3>Dogs</h3>
-<a asp-action="CreateDog" class="btn btn-success mb-3">Add Dog</a>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Hunter</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var dog in Model.Dogs)
-        {
-            <tr>
-                <td>@dog.Name</td>
-                <td>@dog.Hunter?.Name</td>
-            </tr>
-        }
-    </tbody>
-</table>

@@ -21,5 +21,6 @@ namespace StalkAndStrikeApp.Data
     public DbSet<Trophy> Trophies { get; set; }
     public DbSet<Gun> Gun { get; set; }
     public DbSet<Category> Category { get; set; }
+        public DbSet<StalkAndStrikeApp.Models.HuntedPlace> HuntedPlace { get; set; } = default!;
 }
 }

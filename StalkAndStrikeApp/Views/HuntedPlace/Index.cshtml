@@ -1,0 +1,42 @@
+﻿
+
+
+@model IEnumerable<StalkAndStrikeApp.Models.HuntedPlace>
+
+@{
+    ViewData["Title"] = "Hunted Places";
+}
+
+<h2>Hunted Places</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var place in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@place.ImagePath" alt="Hunted Place" width="100" />
+                </td>
+                <td>
+                    <a href="https://www.google.com/maps?q=@place.Latitude,@place.Longitude" target="_blank">
+                        View on Google Maps
+                    </a>
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@place.Id" class="btn btn-danger" onclick="return confirm('Are you sure?');">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Add" class="btn btn-success">Add New Hunted Place</a>

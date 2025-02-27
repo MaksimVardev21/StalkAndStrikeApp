@@ -11,18 +11,6 @@ namespace StalkAndStrikeApp.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Guns_Category_CategoryId",
-                table: "Guns");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Hunters_HuntingLocations_HuntingLocationId",
-                table: "Hunters");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Hunters_Squads_SquadId",
-                table: "Hunters");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -45,29 +33,12 @@ namespace StalkAndStrikeApp.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropIndex(
-                name: "IX_Hunters_HuntingLocationId",
+                name: "IX_Hunters_LicenseNumber",
                 table: "Hunters");
 
             migrationBuilder.DropIndex(
                 name: "IX_Dogs_Name",
                 table: "Dogs");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Guns",
-                table: "Guns");
-
-            migrationBuilder.DropColumn(
-                name: "HuntingLocationId",
-                table: "Hunters");
-
-            migrationBuilder.RenameTable(
-                name: "Guns",
-                newName: "Gun");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_Guns_CategoryId",
-                table: "Gun",
-                newName: "IX_Gun_CategoryId");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Username",
@@ -135,9 +106,15 @@ namespace StalkAndStrikeApp.Data.Migrations
                 name: "LicenseNumber",
                 table: "Hunters",
                 type: "nvarchar(max)",
-                nullable: true,
+                nullable: false,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "nvarchar(450)");
+
+            migrationBuilder.AddColumn<int>(
+                name: "HuntingLocationId",
+                table: "Hunters",
+                type: "int",
+                nullable: true);
 
             migrationBuilder.AlterColumn<string>(
                 name: "Name",
@@ -147,51 +124,51 @@ namespace StalkAndStrikeApp.Data.Migrations
                 oldClrType: typeof(string),
                 oldType: "nvarchar(450)");
 
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Gun",
-                table: "Gun",
-                column: "Id");
+            migrationBuilder.CreateTable(
+                name: "HuntedPlace",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longitude = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HuntedPlace", x => x.Id);
+                });
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Gun_Category_CategoryId",
-                table: "Gun",
-                column: "CategoryId",
-                principalTable: "Category",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Hunters_Squads_SquadId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Hunters_HuntingLocationId",
                 table: "Hunters",
-                column: "SquadId",
-                principalTable: "Squads",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                column: "HuntingLocationId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Hunters_HuntingLocations_HuntingLocationId",
+                table: "Hunters",
+                column: "HuntingLocationId",
+                principalTable: "HuntingLocations",
+                principalColumn: "Id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Gun_Category_CategoryId",
-                table: "Gun");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Hunters_Squads_SquadId",
+                name: "FK_Hunters_HuntingLocations_HuntingLocationId",
                 table: "Hunters");
 
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Gun",
-                table: "Gun");
+            migrationBuilder.DropTable(
+                name: "HuntedPlace");
 
-            migrationBuilder.RenameTable(
-                name: "Gun",
-                newName: "Guns");
+            migrationBuilder.DropIndex(
+                name: "IX_Hunters_HuntingLocationId",
+                table: "Hunters");
 
-            migrationBuilder.RenameIndex(
-                name: "IX_Gun_CategoryId",
-                table: "Guns",
-                newName: "IX_Guns_CategoryId");
+            migrationBuilder.DropColumn(
+                name: "HuntingLocationId",
+                table: "Hunters");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Username",
@@ -260,18 +237,10 @@ namespace StalkAndStrikeApp.Data.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "LicenseNumber",
                 table: "Hunters",
-                type: "nvarchar(max)",
+                type: "nvarchar(450)",
                 nullable: false,
-                defaultValue: "",
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldNullable: true);
-
-            migrationBuilder.AddColumn<int>(
-                name: "HuntingLocationId",
-                table: "Hunters",
-                type: "int",
-                nullable: true);
+                oldType: "nvarchar(max)");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Name",
@@ -280,11 +249,6 @@ namespace StalkAndStrikeApp.Data.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Guns",
-                table: "Guns",
-                column: "Id");
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
@@ -371,8 +335,8 @@ namespace StalkAndStrikeApp.Data.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -416,8 +380,8 @@ namespace StalkAndStrikeApp.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -432,9 +396,10 @@ namespace StalkAndStrikeApp.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Hunters_HuntingLocationId",
+                name: "IX_Hunters_LicenseNumber",
                 table: "Hunters",
-                column: "HuntingLocationId");
+                column: "LicenseNumber",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dogs_Name",
@@ -480,29 +445,6 @@ namespace StalkAndStrikeApp.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Guns_Category_CategoryId",
-                table: "Guns",
-                column: "CategoryId",
-                principalTable: "Category",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Hunters_HuntingLocations_HuntingLocationId",
-                table: "Hunters",
-                column: "HuntingLocationId",
-                principalTable: "HuntingLocations",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Hunters_Squads_SquadId",
-                table: "Hunters",
-                column: "SquadId",
-                principalTable: "Squads",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.SetNull);
         }
     }
 }

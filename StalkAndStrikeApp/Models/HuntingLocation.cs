@@ -1,4 +1,4 @@
-﻿namespace StalkAndStrikeApp.Models
+namespace StalkAndStrikeApp.Models
 {
     public class HuntingLocation
     {
@@ -8,5 +8,6 @@
         public string AllowedGame { get; set; }
         public string Coordinates { get; set; }
         public string Description { get; set; }
+        public ICollection<Hunter> Hunters { get; set; }
     }
 }

@@ -22,23 +22,6 @@ namespace StalkAndStrikeApp.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("StalkAndStrikeApp.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Category");
-                });
-
             modelBuilder.Entity("StalkAndStrikeApp.Models.Dog", b =>
                 {
                     b.Property<int>("Id")
@@ -65,7 +48,7 @@ namespace StalkAndStrikeApp.Data.Migrations
                     b.ToTable("Dogs");
                 });
 
-            modelBuilder.Entity("StalkAndStrikeApp.Models.Gun", b =>
+            modelBuilder.Entity("StalkAndStrikeApp.Models.HuntedPlace", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,22 +56,19 @@ namespace StalkAndStrikeApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
+                    b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Gun");
+                    b.ToTable("HuntedPlace");
                 });
 
             modelBuilder.Entity("StalkAndStrikeApp.Models.Hunter", b =>
@@ -99,7 +79,11 @@ namespace StalkAndStrikeApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("HuntingLocationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("LicenseNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -109,6 +93,8 @@ namespace StalkAndStrikeApp.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HuntingLocationId");
 
                     b.HasIndex("SquadId");
 
@@ -250,24 +236,19 @@ namespace StalkAndStrikeApp.Data.Migrations
                     b.Navigation("Hunter");
                 });
 
-            modelBuilder.Entity("StalkAndStrikeApp.Models.Gun", b =>
-                {
-                    b.HasOne("StalkAndStrikeApp.Models.Category", "Category")
-                        .WithMany("Guns")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("StalkAndStrikeApp.Models.Hunter", b =>
                 {
+                    b.HasOne("StalkAndStrikeApp.Models.HuntingLocation", "HuntingLocation")
+                        .WithMany("Hunters")
+                        .HasForeignKey("HuntingLocationId");
+
                     b.HasOne("StalkAndStrikeApp.Models.Squad", "Squad")
                         .WithMany("Hunters")
                         .HasForeignKey("SquadId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("HuntingLocation");
 
                     b.Navigation("Squad");
                 });
@@ -283,14 +264,14 @@ namespace StalkAndStrikeApp.Data.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("StalkAndStrikeApp.Models.Category", b =>
-                {
-                    b.Navigation("Guns");
-                });
-
             modelBuilder.Entity("StalkAndStrikeApp.Models.Hunter", b =>
                 {
                     b.Navigation("Dogs");
+                });
+
+            modelBuilder.Entity("StalkAndStrikeApp.Models.HuntingLocation", b =>
+                {
+                    b.Navigation("Hunters");
                 });
 
             modelBuilder.Entity("StalkAndStrikeApp.Models.Squad", b =>

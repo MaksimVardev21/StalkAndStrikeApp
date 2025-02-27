@@ -1,48 +1,58 @@
-﻿@model StalkAndStrikeApp.Models.HuntedPlaceViewModel
+@model StalkAndStrikeApp.Models.HuntedPlaceViewModel
 
 @{
-    ViewData["Title"] = "Add Hunted Place";
+	ViewData["Title"] = "Add Hunted Place";
 }
 
 <h2>Add Hunted Place</h2>
 
 <form asp-action="Add" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="imageFile">Upload Image</label>
-        <input type="file" asp-for="ImageFile" class="form-control" required />
-    </div>
+	<div class="form-group">
+		<label for="imageFile">Upload Image</label>
+		<input type="file" asp-for="ImageFile" class="form-control" required />
+	</div>
 
-    <div class="form-group">
-        <label for="map">Select Location</label>
-        <div id="map" style="height: 400px; width: 100%;"></div>
-        <input type="hidden" asp-for="Latitude" id="latitude" />
-        <input type="hidden" asp-for="Longitude" id="longitude" />
-    </div>
+	<div class="form-group">
+		<label for="map">Select Location</label>
+		<div id="map" style="height: 400px; width: 100%;"></div>
+		<input type="hidden" asp-for="Latitude" id="latitude" />
+		<input type="hidden" asp-for="Longitude" id="longitude" />
+	</div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+	<button type="submit" class="btn btn-primary">Save</button>
 </form>
 
 @section Scripts {
-    <script>
-        function initMap() {
-            var defaultLocation = { lat: 37.7749, lng: -122.4194 }; // Default to San Francisco
+	<!-- Include Leaflet.js CSS -->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
 
-            var map = new google.maps.Map(document.getElementById("map"), {
-                center: defaultLocation,
-                zoom: 8
-            });
+	<!-- Include Leaflet.js JavaScript -->
+	<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
 
-            var marker = new google.maps.Marker({
-                position: defaultLocation,
-                map: map,
-                draggable: true
-            });
+	<script>
+		function initMap() {
+			var defaultLocation = [37.7749, -122.4194]; // Default to San Francisco
 
-            google.maps.event.addListener(marker, "dragend", function (event) {
-                document.getElementById("latitude").value = event.latLng.lat();
-                document.getElementById("longitude").value = event.latLng.lng();
-            });
-        }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDepwK3JykS2cSY16pdy7NaXfA8oPPxfto&callback=initMap" async defer></script>
+			// Initialize the Leaflet map
+			var map = L.map('map').setView(defaultLocation, 8);
+
+			// Load OpenStreetMap tiles
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(map);
+
+			// Add a draggable marker
+			var marker = L.marker(defaultLocation, { draggable: true }).addTo(map);
+
+			// Update latitude and longitude inputs when the marker is moved
+			marker.on('dragend', function (event) {
+				var position = marker.getLatLng();
+				document.getElementById("latitude").value = position.lat;
+				document.getElementById("longitude").value = position.lng;
+			});
+		}
+
+		// Initialize the map when the page loads
+		document.addEventListener("DOMContentLoaded", initMap);
+	</script>
 }

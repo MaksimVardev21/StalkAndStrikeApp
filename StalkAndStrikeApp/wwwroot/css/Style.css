@@ -1,0 +1,108 @@
+﻿/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    text-align: center;
+}
+
+h1, h2, h4 {
+    color: #2c3e50;
+}
+
+/* Header */
+header {
+    background: #1e3d59;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+/* Hero Section */
+.hero {
+    background: url('hero-banner.jpg') no-repeat center center/cover;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+    .hero .container {
+        background: rgba(0, 0, 0, 0.6);
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+.cta-button {
+    display: inline-block;
+    background: #e67e22;
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+    .cta-button:hover {
+        background: #d35400;
+    }
+
+/* Testimonials Section */
+.testimonials {
+    background: white;
+    padding: 50px 0;
+}
+
+.testimonial-cards {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.testimonial-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 30%;
+    min-width: 250px;
+}
+
+/* Call to Action Section */
+.cta-section {
+    background: #1e3d59;
+    color: white;
+    padding: 50px 0;
+}
+
+/* Footer */
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 20px;
+}
+
+    footer a {
+        color: #e67e22;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+
+        footer a:hover {
+            text-decoration: underline;
+        }

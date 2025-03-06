@@ -1,0 +1,212 @@
+﻿/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-image: url('../uploads/снимка%20на%20ловец.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    text-align: center;
+}
+
+h1, h2, h4 {
+    color: #2c3e50;
+}
+
+/* Header */
+header {
+    background: #1e3d59;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+/* Navbar */
+.navbar-nav {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: flex-end;
+    background: #2c3e50;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.nav-item {
+    margin: 0 15px;
+}
+
+.nav-link {
+    color: white !important;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+    .nav-link:hover {
+        background: #e67e22;
+    }
+
+.navbar-nav .btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+    .navbar-nav .btn:hover {
+        text-decoration: underline;
+    }
+
+/* Forms */
+form {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background: #e67e22;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    button.btn-primary:hover {
+        background: #d35400;
+    }
+
+.alert.alert-danger {
+    color: white;
+    background: #c0392b;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+p a {
+    color: #e67e22;
+    text-decoration: none;
+}
+
+    p a:hover {
+        text-decoration: underline;
+    }
+
+/* Hero Section */
+.hero {
+    background: url('hero-banner.jpg') no-repeat center center/cover;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+    .hero .container {
+        background: rgba(0, 0, 0, 0.6);
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+.cta-button {
+    display: inline-block;
+    background: #e67e22;
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+    .cta-button:hover {
+        background: #d35400;
+    }
+
+/* Testimonials Section */
+.testimonials {
+    background: white;
+    padding: 50px 0;
+}
+
+.testimonial-cards {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.testimonial-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 30%;
+    min-width: 250px;
+}
+
+/* Call to Action Section */
+.cta-section {
+    background: #1e3d59;
+    color: white;
+    padding: 50px 0;
+}
+
+/* Footer */
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 20px;
+}
+
+    footer a {
+        color: #e67e22;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+
+        footer a:hover {
+            text-decoration: underline;
+        }

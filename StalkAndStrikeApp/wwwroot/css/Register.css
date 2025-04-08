@@ -9,6 +9,9 @@ body {
     background-position: center;
     background-attachment: fixed;
     color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .container {
@@ -75,7 +78,7 @@ form {
     max-width: 400px;
     margin: 50px auto;
     padding: 20px;
-    background: white;
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -130,6 +133,27 @@ p a {
     p a:hover {
         text-decoration: underline;
     }
+
+/* Improve Readability of Registration Prompt */
+.register-text {
+    color: #ffffff; /* White text for better visibility */
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+    .register-text a {
+        color: #ffffff; /* White color for the link */
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+        .register-text a:hover {
+            text-decoration: underline;
+            color: #f39c12; /* Optional: Change color on hover */
+        }
 
 /* Hero Section */
 .hero {
@@ -194,19 +218,31 @@ p a {
 
 /* Footer */
 footer {
-    background: #333;
+    background: #1e3d59; /* Dark blue background for better contrast */
     color: white;
     text-align: center;
-    padding: 20px 0;
-    margin-top: 20px;
+    padding: 15px 0;
+    position: fixed; /* Keeps it at the bottom */
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    font-size: 14px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
     footer a {
         color: #e67e22;
         text-decoration: none;
+        font-weight: bold;
         margin: 0 10px;
     }
 
         footer a:hover {
             text-decoration: underline;
+            color: #f39c12;
         }
+
+/* Ensure footer does not overlap content */
+.main-content {
+    flex: 1; /* Pushes the footer to the bottom */
+}
